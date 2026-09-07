@@ -1,5 +1,8 @@
 docs/
 sources/
+AGENTS.md
+README.md
+*.log
 node_modules/
 dist/
 .astro/
