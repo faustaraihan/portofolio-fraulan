@@ -1,5 +1,5 @@
-sources/private/
-sources/qa/
+docs/
+sources/
 node_modules/
 dist/
 .astro/
