@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout title="Page not found | Fausta Raihan Maulana" description="This page is not part of Fausta Raihan Maulana’s portfolio.">
+  <Header />
+  <main id="main-content" class="not-found wrap" tabindex="-1">
+    <p class="section-marker">404 / Lost in the build</p>
+    <h1>This page<br /><em>isn’t here.</em></h1>
+    <p>The link may have moved, or the route never shipped.</p>
+    <a class="button button-primary" href="/">Back home <span aria-hidden="true">↗</span></a>
+  </main>
+  <Footer />
+</BaseLayout>

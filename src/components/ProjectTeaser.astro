@@ -1,0 +1,36 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  index: number;
+  featured?: boolean;
+}
+const { project, index, featured = false } = Astro.props;
+const mediaHref = project.caseStudyPath ?? project.demoUrl;
+const mediaRel = project.caseStudyPath ? undefined : 'noopener noreferrer';
+---
+<article class:list={["project-teaser", `project-${index + 1}`, { featured }]} data-reveal>
+  {mediaHref ? <a class="project-media" href={mediaHref} rel={mediaRel} aria-label={project.caseStudyPath ? `View ${project.name} case study` : `Visit ${project.name} project`}>
+    <img src={project.cover} alt={project.coverAlt} width={project.coverWidth} height={project.coverHeight} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+    <span class:list={["media-corner", project.accent]} aria-hidden="true"><span></span><span></span></span>
+  </a> : <div class="project-media">
+    <img src={project.cover} alt={project.coverAlt} width={project.coverWidth} height={project.coverHeight} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+    <span class:list={["media-corner", project.accent]} aria-hidden="true"><span></span><span></span></span>
+  </div>}
+  <div class="project-copy">
+    <div class="project-heading">
+      <p class="eyebrow">{project.eyebrow}</p>
+      <p class:list={["project-status", { progress: project.status === 'in-progress' }]}>{project.status === 'in-progress' ? 'In progress' : `0${index + 1}`}</p>
+    </div>
+    <h3 class="project-title"><span class="project-title-text">{project.caseStudyPath ? <a href={project.caseStudyPath}>{project.name}</a> : project.name}</span>{project.logo && <span class:list={['title-emblem', `emblem-${project.slug}`]} aria-hidden="true"><img src={project.logo} alt="" width="100" height="100" loading="lazy" /></span>}</h3>
+    <p class="project-summary">{project.summary}</p>
+    <p class="project-contribution"><strong>{project.contributionLabel}</strong> {project.contribution}</p>
+    <div class="project-meta">
+      <ul aria-label={`${project.name} technology stack`}>
+        {project.stack.map((item) => <li>{item}</li>)}
+      </ul>
+      {project.caseStudyPath ? <a class="text-link" href={project.caseStudyPath}>Read case study <span aria-hidden="true">↗</span></a> : project.demoUrl ? <a class="text-link" href={project.demoUrl} rel="noopener noreferrer">Visit project <span aria-hidden="true">↗</span></a> : <span class="status-note">Building the first release</span>}
+    </div>
+  </div>
+</article>

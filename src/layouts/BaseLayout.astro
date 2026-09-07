@@ -1,0 +1,58 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const {
+  title = 'Fausta Raihan Maulana | Software developer',
+  description = 'Portfolio of Fausta Raihan Maulana, a software developer with a product mindset.',
+  canonical,
+  ogImage = '/og/fraulan.png',
+} = Astro.props;
+const canonicalUrl = canonical ?? Astro.url.pathname;
+const absoluteCanonical = new URL(canonicalUrl, Astro.site ?? 'https://fraulan.com').toString();
+const absoluteOg = new URL(ogImage, Astro.site ?? 'https://fraulan.com').toString();
+const noindex = import.meta.env.PUBLIC_NOINDEX === 'true';
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Fausta Raihan Maulana',
+  url: 'https://fraulan.com/',
+  email: 'mailto:faustaraihan69@gmail.com',
+  sameAs: ['https://www.linkedin.com/in/faustaraihan'],
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#fafafa" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={absoluteCanonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={absoluteCanonical} />
+    <meta property="og:image" content={absoluteOg} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOg} />
+    <link rel="icon" href="/images/fraulan-icon.svg" type="image/svg+xml" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)}></script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <slot />
+    <script>import '../scripts/motion';</script>
+  </body>
+</html>

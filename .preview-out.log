@@ -1,0 +1,5 @@
+
+> fraulan-portfolio@1.0.0 preview
+> astro preview --host 127.0.0.1 --port 4323
+
+{"message":"Preview server already running at http://127.0.0.1:4321 (pid 6648)\n  Stop:   astro preview stop\n  Status: astro preview status\n  Logs:   astro preview logs","label":"SKIP_FORMAT","level":"info"}

@@ -1,0 +1,52 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getProject, projects } from '../data/projects';
+
+const slug = Astro.props.frontmatter?.project ?? Astro.props.project;
+const project = getProject(slug);
+if (!project) throw new Error(`Unknown project: ${slug}`);
+const description = `${project.name}: ${project.summary}`;
+const caseProjects = projects.filter(item => item.caseStudyPath);
+const nextProject = caseProjects[(caseProjects.findIndex(item => item.slug === slug) + 1) % caseProjects.length];
+---
+<BaseLayout title={`${project.name} | Fausta Raihan Maulana`} description={description}>
+  <Header />
+  <main id="main-content" class:list={['case-study', `case-${project.slug}`]} tabindex="-1">
+    <section class="case-hero wrap" data-reveal>
+      <a class="back-link" href="/#work"><span aria-hidden="true">←</span> Back to selected work</a>
+      <button class="motion-toggle case-motion" data-motion-toggle aria-pressed="false" hidden><span data-motion-label>Motion on</span></button>
+      <div class="case-intro-grid">
+        <div>
+          <p class="eyebrow">{project.eyebrow}</p>
+          <h1 class="project-title"><span class="project-title-text">{project.name}</span>{project.logo && <span class:list={['title-emblem', `emblem-${project.slug}`]} aria-hidden="true"><img src={project.logo} alt="" width="100" height="100" /></span>}</h1>
+          <p class="case-deck">{project.summary}</p>
+        </div>
+        <dl class="case-meta">
+          <div><dt>{project.contributionLabel}</dt><dd>{project.contribution}</dd></div>
+          <div><dt>Stack</dt><dd>{project.stack.join(' · ')}</dd></div>
+        </dl>
+      </div>
+    </section>
+    <section class="case-cover wrap" data-reveal>
+      <div class="case-cover-label"><span class="eyebrow">A closer look / {project.name}</span><span aria-hidden="true">↓</span></div>
+      <div class:list={["case-cover-frame", project.accent]}>
+        <img src={project.cover} alt={project.coverAlt} width={project.coverWidth} height={project.coverHeight} loading="eager" decoding="async" />
+      </div>
+      <div class="case-orbit" data-ornament aria-hidden="true"><i></i><i></i></div>
+    </section>
+    <article class="case-body wrap prose">
+      <slot />
+      <div class="case-actions">
+        {project.demoUrl && <a class="button button-primary" href={project.demoUrl} rel="noopener noreferrer">Visit live project <span aria-hidden="true">↗</span></a>}
+        <a class="button button-secondary" href="/#work">Back to work <span aria-hidden="true">↗</span></a>
+      </div>
+    </article>
+    <nav class="case-next wrap" aria-label="Next project">
+      <p class="eyebrow">Keep exploring / Next project</p>
+      <a href={nextProject.caseStudyPath!}><span>{nextProject.name}</span><span aria-hidden="true">↗</span></a>
+    </nav>
+  </main>
+  <Footer />
+</BaseLayout>

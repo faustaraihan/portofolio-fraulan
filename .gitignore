@@ -1,0 +1,6 @@
+sources/private/
+sources/qa/
+node_modules/
+dist/
+.astro/
+tmp/

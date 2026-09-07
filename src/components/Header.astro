@@ -1,0 +1,23 @@
+---
+const currentPath = Astro.url.pathname;
+---
+<header class="site-header">
+  <div class="header-inner">
+    <a class="wordmark" href="/" aria-label="Fraulan home">fraulan<span class="wordmark-dot">.</span></a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/#work" class:list={{ active: currentPath === '/' && Astro.url.hash === '#work' }}>Work</a>
+      <a href="/#about">About</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+    <details class="mobile-nav">
+      <summary>Menu <span aria-hidden="true">↗</span></summary>
+      <nav aria-label="Mobile navigation">
+        <a href="/#work">Work</a>
+        <a href="/#about">About</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </details>
+  </div>
+</header>
