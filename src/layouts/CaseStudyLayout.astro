@@ -2,18 +2,34 @@
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getProject, projects } from '../data/projects';
+import CaseStudyNav from '../components/case-studies/CaseStudyNav.astro';
+import { getProject } from '../data/projects';
 
 const slug = Astro.props.frontmatter?.project ?? Astro.props.project;
 const project = getProject(slug);
 if (!project) throw new Error(`Unknown project: ${slug}`);
 const description = `${project.name}: ${project.summary}`;
-const caseProjects = projects.filter(item => item.caseStudyPath);
-const nextProject = caseProjects[(caseProjects.findIndex(item => item.slug === slug) + 1) % caseProjects.length];
+const study = project.study;
 ---
-<BaseLayout title={`${project.name} | Fausta Raihan Maulana`} description={description}>
+<BaseLayout title={`${project.name} | Fausta Raihan Maulana`} description={description} motion={!study}>
+  <div class:list={["case-page", { "case-page--designed": !!study }]} >
   <Header />
   <main id="main-content" class:list={['case-study', `case-${project.slug}`]} tabindex="-1">
+    {study ? <section class="case-overview wrap" aria-label={`${project.name} overview`}>
+      <nav class="case-location" aria-label="Breadcrumb"><a class="case-breadcrumb" href="/#work"><span class="case-back-surface"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7" /></svg><span>Back to work</span></span></a><span class="case-location-current" aria-current="page">{project.name}</span></nav>
+      <div class="case-identity">
+        <div><p class="case-eyebrow">{study.eyebrow}</p><h1 class="case-wordmark">{study.logo ? <><span class="case-sr-only">{project.name}</span><img src={study.logo.src} alt="" width={study.logo.width} height={study.logo.height} /></> : project.name}</h1><p class="case-promise">{study.deck}</p><p class="case-description">{study.description}</p></div>
+        {study.identityArt && <img class="case-identity-art" src={study.identityArt.src} alt="" width={study.identityArt.width} height={study.identityArt.height} decoding="async" />}
+        {project.demoUrl && study.showLiveAction !== false && <a class="button button-primary case-live" href={project.demoUrl}>Open live product <span aria-hidden="true">↗</span></a>}
+      </div>
+      <dl class="case-context"><div><dt>{study.roleLabel ?? 'My role'}</dt><dd>{study.role}</dd></div><div><dt>{study.focusLabel ?? 'Focus'}</dt><dd>{study.focus}</dd></div><div><dt>{study.contextLabel ?? 'Context'}</dt><dd>{study.context}</dd></div></dl>
+      <div class:list={["case-product-overview", { "has-flow": !!study.flow }]}>
+        {study.overview.label && <p class="case-overview-label case-eyebrow">{study.overview.label}</p>}
+        <div class:list={["case-overview-media", { "case-overview-media--scrollable": study.overview.scrollable }]} tabindex={study.overview.scrollable ? "0" : undefined} role={study.overview.scrollable ? "region" : undefined} aria-label={study.overview.scrollable ? `${project.name} concept preview; scroll horizontally on small screens` : undefined}><img class="case-overview-image" src={study.overview.src} alt={study.overview.alt} width={study.overview.width} height={study.overview.height} decoding="async" fetchpriority="high" /></div>
+        {(study.flow || study.overview.summary || study.overview.caption) && <div class="case-overview-details">{study.overview.summary && <p class="case-overview-summary">{study.overview.summary}</p>}{study.flow && <><p class="case-eyebrow">Core user flow</p><ol class="case-core-flow">{study.flow.map((step,index) => <li><span aria-hidden="true">0{index+1}</span><h2>{step.title}</h2><p>{step.description}</p></li>)}</ol></>}{study.overview.caption && <p class="case-overview-caption">{study.overview.caption}</p>}</div>}
+      </div>
+      <nav class="case-chapters" aria-label="In this study"><span>In this study</span>{study.chapters.map(chapter => <a href={`#${chapter.id}`}>{chapter.label}</a>)}</nav>
+    </section> : <>
     <section class="case-hero wrap" data-reveal>
       <a class="back-link" href="/#work"><span aria-hidden="true">←</span> Back to selected work</a>
       <button class="motion-toggle case-motion" data-motion-toggle aria-pressed="false" hidden><span data-motion-label>Motion on</span></button>
@@ -36,17 +52,16 @@ const nextProject = caseProjects[(caseProjects.findIndex(item => item.slug === s
       </div>
       <div class="case-orbit" data-ornament aria-hidden="true"><i></i><i></i></div>
     </section>
-    <article class="case-body wrap prose">
+    </>}
+    <article class:list={["case-body", study ? "case-body--designed" : "wrap prose"]}>
       <slot />
-      <div class="case-actions">
+      {!study && <div class="case-actions">
         {project.demoUrl && <a class="button button-primary" href={project.demoUrl} rel="noopener noreferrer">Visit live project <span aria-hidden="true">↗</span></a>}
         <a class="button button-secondary" href="/#work">Back to work <span aria-hidden="true">↗</span></a>
-      </div>
+      </div>}
     </article>
-    <nav class="case-next wrap" aria-label="Next project">
-      <p class="eyebrow">Keep exploring / Next project</p>
-      <a href={nextProject.caseStudyPath!}><span>{nextProject.name}</span><span aria-hidden="true">↗</span></a>
-    </nav>
+    <CaseStudyNav currentSlug={project.slug} />
   </main>
   <Footer />
+  </div>
 </BaseLayout>

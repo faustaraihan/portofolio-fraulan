@@ -1,23 +1,12 @@
----
-const currentPath = Astro.url.pathname;
----
 <header class="site-header">
   <div class="header-inner">
-    <a class="wordmark" href="/" aria-label="Fraulan home">fraulan<span class="wordmark-dot">.</span></a>
+    <a class="wordmark" href="/" aria-label="Fraulan home">
+      <img src="/images/pendev/fraulan-mark.svg" alt="" width="36" height="36" />
+    </a>
     <nav class="desktop-nav" aria-label="Primary navigation">
-      <a href="/#work" class:list={{ active: currentPath === '/' && Astro.url.hash === '#work' }}>Work</a>
-      <a href="/#about">About</a>
-      <a href="/#experience">Experience</a>
-      <a href="/#contact">Contact</a>
+      <a class="nav-link" href="/#work">Work</a>
+      <a class="nav-link" href="/#about">About</a>
+      <a class="nav-contact" href="/#contact">Let’s talk <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg></a>
     </nav>
-    <details class="mobile-nav">
-      <summary>Menu <span aria-hidden="true">↗</span></summary>
-      <nav aria-label="Mobile navigation">
-        <a href="/#work">Work</a>
-        <a href="/#about">About</a>
-        <a href="/#experience">Experience</a>
-        <a href="/#contact">Contact</a>
-      </nav>
-    </details>
   </div>
 </header>

@@ -5,29 +5,43 @@ import { gzipSync } from 'node:zlib';
 import { projects } from '../src/data/projects.ts';
 
 function validate(entries) {
-  assert.deepEqual(entries.map(p => p.slug), ['codestroke', 'boilrplate', 'karisma-ai', 'moomori']);
+  assert.deepEqual(entries.map(p => p.slug), ['codestroke', 'blastrot', 'karisma-ai', 'boilrplate']);
   assert.equal(new Set(entries.map(p => p.slug)).size, 4);
   for (const p of entries) {
     assert.ok(p.name && p.summary && p.contribution && p.stack.length);
-    assert.equal(p.status, ['boilrplate', 'moomori'].includes(p.slug) ? 'in-progress' : 'project');
+    assert.equal(p.status, ['blastrot', 'boilrplate'].includes(p.slug) ? 'in-progress' : 'project');
     assert.ok(p.coverWidth > 0 && p.coverHeight > 0);
+    if (p.detail) {
+      assert.ok(p.detail.src.startsWith('/images/') && p.detail.alt && p.detail.caption, `${p.slug}: detail needs a local image and caption`);
+      assert.ok(p.detail.width > 0 && p.detail.height > 0, `${p.slug}: detail dimensions`);
+    }
     for (const field of ['caseStudyPath', 'demoUrl', 'repoUrl']) {
       assert.ok(p[field] === null || (typeof p[field] === 'string' && p[field].length > 1 && p[field] !== '#'), `${p.slug}: invalid ${field}`);
     }
-    assert.equal(p.caseStudyPath, ['codestroke', 'boilrplate', 'karisma-ai'].includes(p.slug) ? `/work/${p.slug}/` : null);
-    if (['boilrplate', 'moomori'].includes(p.slug)) assert.equal(p.demoUrl, null);
+    assert.equal(p.caseStudyPath, `/work/${p.slug}/`);
+    assert.equal(p.demoUrl, { codestroke: 'https://codestroke.dev/', blastrot: null, 'karisma-ai': 'https://karisma-ai.site/', boilrplate: null }[p.slug]);
+    assert.equal(p.repoUrl, null, `${p.slug}: no verified public repository URL`);
     for (const field of ['demoUrl', 'repoUrl']) if (p[field]) assert.equal(new URL(p[field]).protocol, 'https:');
   }
 }
 validate(projects);
-for (const patch of [{ status: 'project' }, { demoUrl: '' }, { demoUrl: '#' }, { caseStudyPath: '/work/moomori/' }]) {
+for (const patch of [{ status: 'project' }, { demoUrl: '' }, { demoUrl: '#' }, { demoUrl: 'https://example.invalid/' }, { caseStudyPath: null }, { detail: { src: '', alt: '', caption: '', width: 0, height: 0 } }]) {
   const invalid = structuredClone(projects);
-  Object.assign(invalid[3], patch);
+  Object.assign(invalid[1], patch);
   assert.throws(() => validate(invalid), `invalid fixture must fail: ${JSON.stringify(patch)}`);
+}
+for (const mutate of [
+  entries => { entries[1].slug = entries[0].slug; },
+  entries => { [entries[0], entries[1]] = [entries[1], entries[0]]; },
+  entries => { entries[1].repoUrl = 'https://example.invalid/'; },
+]) {
+  const invalid = structuredClone(projects);
+  mutate(invalid);
+  assert.throws(() => validate(invalid), 'duplicate slug, wrong order or fake repo must fail');
 }
 const dist = resolve('dist');
 assert.ok(existsSync(dist), 'Run npm run build before checking output');
-const pages = ['index.html', 'work/codestroke/index.html', 'work/boilrplate/index.html', 'work/karisma-ai/index.html', '404.html'];
+const pages = ['index.html', 'work/codestroke/index.html', 'work/blastrot/index.html', 'work/boilrplate/index.html', 'work/karisma-ai/index.html', '404.html'];
 const attrs = tag => Object.fromEntries([...tag.matchAll(/([\w:-]+)\s*=\s*"([^"]*)"/g)].map(m => [m[1], m[2]]));
 const titles = new Set();
 const descriptions = new Set();
@@ -57,7 +71,8 @@ for (const file of pages) {
     for (const url of urls) {
       if (/^(?:https?:|mailto:|data:)/.test(url)) continue;
       links++;
-      const [pathname, hash] = url.split('#');
+      const [pathWithQuery, hash] = url.split('#');
+      const pathname = pathWithQuery.split('?')[0];
       const target = pathname ? (pathname.startsWith('/') ? join(dist, decodeURI(pathname)) : resolve(dist, file, '..', decodeURI(pathname))) : join(dist, file);
       const normalized = existsSync(target) && statSync(target).isDirectory() ? join(target, 'index.html') : target;
       assert.ok(existsSync(normalized), `${file}: broken local URL ${url}`);
@@ -67,9 +82,17 @@ for (const file of pages) {
 }
 const home = readFileSync(join(dist, 'index.html'), 'utf8');
 for (const id of ['work', 'about', 'experience', 'contact']) assert.ok(home.includes(`id="${id}"`));
+for (const project of projects) assert.ok(home.includes(`id="project-${project.slug}"`), `${project.slug}: project shortcut target`);
+assert.equal((home.match(/data-work-card/g) || []).length, projects.length, 'one gallery card per project');
+for (const project of projects) assert.ok(home.includes(project.home.preview.src), `${project.slug}: pen.dev gallery media`);
 assert.match(home, /In progress/);
 assert.match(home, /mailto:faustaraihan69@gmail\.com/);
-assert.ok(!existsSync(join(dist, 'work/moomori/index.html')));
+assert.ok(existsSync(join(dist, 'work/blastrot/index.html')));
+assert.doesNotMatch(home, /moomori/i, 'Moomori must be absent from the generated home page');
+assert.ok(!existsSync(join(dist, 'images/moomori-preview.webp')), 'Removed project media must not ship in the public build');
+const sitemap = readFileSync(join(dist, 'sitemap.xml'), 'utf8');
+for (const route of ['/', '/work/blastrot/', '/work/codestroke/', '/work/karisma-ai/', '/work/boilrplate/']) assert.ok(sitemap.includes(`https://fraulan.com${route}`), `sitemap missing ${route}`);
+assert.doesNotMatch(sitemap, /moomori/i, 'sitemap includes only published detail routes');
 assert.ok(existsSync(join(dist, 'robots.txt')) && existsSync(join(dist, 'sitemap.xml')));
 const files = readdirSync(dist, { recursive: true }).filter(f => statSync(join(dist, f)).isFile());
 const gzipBytes = extension => files.filter(f => extname(f) === extension).reduce((n, f) => n + gzipSync(readFileSync(join(dist, f))).length, 0);

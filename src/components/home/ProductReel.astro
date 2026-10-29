@@ -1,0 +1,30 @@
+---
+const columns = [
+  [
+    { file: 'codestroke-typing', width: 408, height: 230, alt: 'Codestroke code typing interface' },
+    { file: 'blastrot-daily', width: 408, height: 250, alt: 'Blastrot Daily Mix design preview' },
+    { file: 'boilrplate-blocks', width: 408, height: 252, alt: 'Boilrplate Blocks and Modules concept' },
+    { file: 'karisma-login', width: 408, height: 280, alt: 'Karisma AI login interface' },
+  ],
+  [
+    { file: 'karisma-landing', width: 408, height: 230, alt: 'Karisma AI career navigation landing page' },
+    { file: 'codestroke-learn', width: 408, height: 300, alt: 'Codestroke Learn practice guides' },
+    { file: 'blastrot-pair-pop', width: 408, height: 260, alt: 'Blastrot Pair Pop design preview' },
+    { file: 'boilrplate-project', width: 408, height: 222, alt: 'Boilrplate pinned Project and export concept' },
+  ],
+  [
+    { file: 'boilrplate-revision', width: 408, height: 255, alt: 'Boilrplate composition and revision concept' },
+    { file: 'karisma-analysis', width: 408, height: 390, alt: 'Karisma AI skills, career-match and roadmap example UI' },
+    { file: 'codestroke-leaderboard', width: 408, height: 210, alt: 'Codestroke public leaderboard interface' },
+    { file: 'blastrot-stickers', width: 408, height: 157, alt: 'Blastrot Sticker Book design preview' },
+  ],
+];
+---
+<section id="product-reel" class="product-reel wrap" aria-label="A glimpse of the products">
+  <div class="reel-wall">
+    {columns.map(column => <div class="reel-column">{column.map(tile => <img data-reel-tile src={`/images/pendev/reel-${tile.file}-tile.webp`} alt={tile.alt} width={tile.width} height={tile.height} loading="lazy" decoding="async" />)}</div>)}
+    <div class="reel-veil" aria-hidden="true"></div>
+    <a class="reel-action" href="#work"><img src="/images/pendev/fraulan-mark.svg" alt="" width="42" height="42" /><span>Explore my work<small>Solo builds &amp; team contributions</small></span><span aria-hidden="true">↘</span></a>
+  </div>
+  <p class="reel-caption">A glimpse of the things I’m building.</p>
+</section>

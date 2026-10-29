@@ -1,0 +1,141 @@
+/* Explanatory diagrams share one outline vocabulary and explicit reading order.
+   Product screenshots and app marks retain their original visual identity. */
+.study-icon{display:block;width:22px;height:22px;flex:none;color:var(--body)}
+.study-connector{display:block;width:1px;height:28px;background:#a8c0ce;position:relative;flex:none}
+.study-connector::after{content:'';position:absolute;bottom:0;left:-3px;width:7px;height:7px;border-right:1px solid #86a5b7;border-bottom:1px solid #86a5b7;transform:rotate(45deg)}
+.study-connector--horizontal{width:40px;height:1px}
+.study-connector--horizontal::after{bottom:-3px;left:auto;right:0;transform:rotate(-45deg)}
+.case-body--designed .chapter-heading{max-width:850px;margin-bottom:36px}
+.case-body--designed .chapter-heading h2{text-wrap:balance}
+
+/* Codestroke: a connected delivery rail, rather than four floating icon cards. */
+.system-delivery{margin-top:48px;padding-top:32px}
+.case-body .system-flow{gap:0;margin:28px 0 32px;counter-reset:delivery}
+.system-flow li{padding:24px 24px 8px 0;border-radius:0;background:none;border-top:1px solid #bdd0dc}
+.system-flow li+li{padding-left:24px}
+.system-flow li+li::before{content:none}
+.system-flow .study-step{position:absolute;top:-14px;left:0;padding-right:12px;background:var(--bg);font-size:12px;line-height:26px;color:var(--muted);font-variant-numeric:tabular-nums}
+.system-flow li+li .study-step{left:24px;padding-inline:10px}
+.system-flow .study-icon{margin-top:6px;margin-bottom:18px}
+.system-flow h4{font-size:18px;font-weight:500;margin:0 0 8px}
+.system-flow code,.system-flow p{font-size:12px;line-height:1.65}
+.release-receipt{background:none;border-top:1px solid #d7e5ed;padding:20px 0;gap:24px}
+.release-receipt li{display:flex;align-items:baseline;gap:10px;color:var(--body);font-size:13px}
+.release-receipt li::before{content:'';width:5px;height:5px;flex:none;border-radius:50%;background:#50744b}
+
+/* Blastrot: keep game artwork prominent; annotations support the state diagrams. */
+.break-policies{gap:32px}
+.break-policies article{padding-right:32px}
+.break-policies h3{font-size:21px;margin-bottom:10px}
+.break-policies p{max-width:36ch;line-height:1.65}
+.daily-spec{padding:32px}
+.daily-states{gap:24px}
+.daily-states figure{padding:20px;border-radius:10px}
+.daily-states h3{font-family:inherit;font-size:12px;color:var(--body)}
+.daily-states figcaption{line-height:1.65}
+.daily-shared{display:grid;grid-template-columns:auto 24px minmax(0,1fr);gap:24px;padding-top:24px}
+.daily-shared .study-icon{width:20px;height:20px;color:#526f80}
+.break-option{padding:20px 24px;gap:16px;border-radius:10px;font-size:16px;font-weight:400;line-height:1.65}
+.break-option .study-icon{width:20px;height:20px}
+.pair-pop-layout{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:56px}
+.pair-state-flow{gap:20px}
+.pair-pause{gap:16px;padding:20px;align-items:flex-start}
+.pair-pause .study-icon{width:20px;height:20px;margin-top:2px}
+.pair-pause h4{line-height:1.5}
+.pair-loop{padding-block:4px;font-size:13px}
+.library-principle{gap:20px;align-items:flex-start;margin-top:32px}
+.library-principle .study-icon{width:24px;height:24px;margin-top:3px}
+.library-principle h3{font-size:22px;line-height:1.4}
+.library-principle p{max-width:65ch;line-height:1.65}
+
+/* Karisma AI: evidence on one side, the open question on the other. */
+.karisma-problem{grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:72px;align-items:start}
+.karisma-problem>p{max-width:34ch;font-size:20px;line-height:1.65}
+.karisma-cv-question{display:grid;grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr);gap:24px;align-items:center}
+.karisma-cv{width:auto;padding:26px;border-radius:12px;border-color:#d8dfea;background:#f3f7fa}
+.karisma-cv h3{font-size:22px;gap:12px}
+.karisma-cv .study-icon{width:20px;height:20px}
+.case-body .karisma-cv ul{gap:12px;font-size:14px}
+.karisma-cv-question>p{font-size:34px;line-height:1.15;text-wrap:balance}
+.case-body .karisma-journey{gap:32px;margin-bottom:44px}
+.karisma-journey li{padding:0 0 22px;border-bottom:1px solid #bdd0dc}
+.karisma-journey li>span{display:block;color:var(--muted);font-variant-numeric:tabular-nums}
+.karisma-journey h3{font-size:22px;margin-top:14px}
+.karisma-skills-layout,.karisma-learning-layout{gap:56px;align-items:start}
+.karisma-skills{padding:24px;border-radius:12px}
+.karisma-user-need,.karisma-learning-intent{padding-top:12px}
+.karisma-contribution{grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:80px;align-items:start}
+.case-body .karisma-team ul{gap:0;margin-top:20px}
+.karisma-team li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 20px;padding:18px 0;border-top:1px solid #d7e5ed;font-size:16px}
+.karisma-team li>span:first-child{width:auto}
+.karisma-team .team-count{color:var(--muted);font-size:13px;white-space:nowrap}
+.karisma-team .team-role-note{grid-column:1/-1;font-size:12px;color:var(--body)}
+.team-own-role>span:first-child{font-weight:500}
+
+/* Boilrplate: distinguish source files, saved decisions and project inheritance. */
+.boil-problem-flow{grid-template-columns:minmax(0,1fr) 88px minmax(0,1fr);gap:32px;align-items:stretch}
+.boil-old-project,.boil-saved-setup{padding:30px;border-radius:12px}
+.boil-old-project h3{font-size:18px;gap:12px;overflow-wrap:anywhere}
+.boil-old-project h3 .study-icon{width:22px;height:22px}
+.boil-old-project dl{gap:16px;grid-template-columns:120px minmax(0,1fr);padding-top:22px;margin-top:22px;border-top:1px solid #d1dfe7}
+.boil-saved-setup{background:none;border-color:#cfdee7;display:flex;flex-direction:column;justify-content:center}
+.boil-save-once{justify-content:center;gap:16px}
+.boil-save-once p{font-size:12px;color:var(--body)}
+.boil-saved-setup h3{font-size:26px}
+.boil-saved-setup p{line-height:1.65;max-width:36ch}
+.boil-idea-layout{grid-template-columns:minmax(0,.8fr) minmax(0,1.8fr);gap:64px}
+.boil-user-need{background:none;padding:0 0 24px;border:0}
+.boil-revision-grid{gap:32px;margin-top:24px}
+.boil-revision-chain{gap:0}
+.boil-revision-card{border-radius:12px;padding:24px;min-height:164px}
+.boil-project-card{border-radius:12px;padding:24px;min-height:140px}
+.boil-revision-card h3,.boil-project-card h3{font-size:20px;line-height:1.35}
+.study-relationship{display:flex;align-items:center;gap:12px;align-self:flex-start;margin-left:24px;min-height:64px;font-size:12px;color:var(--muted)}
+.study-relationship .study-connector{height:44px}
+.boil-revision-promise{margin-top:28px;font-size:15px;line-height:1.65;max-width:70ch}
+
+@media(max-width:1023px){
+ .karisma-problem{grid-template-columns:1fr;gap:32px}.karisma-problem>p{max-width:65ch}
+ .karisma-cv-question{max-width:650px}
+ .karisma-contribution{gap:40px}
+ .boil-problem-flow{gap:20px;grid-template-columns:minmax(0,1fr) 60px minmax(0,1fr)}
+ .boil-old-project,.boil-saved-setup{padding:24px}.boil-old-project dl{grid-template-columns:1fr;gap:8px}
+ .boil-old-project dd{margin-bottom:12px}
+ .boil-idea-layout{grid-template-columns:1fr;gap:32px}.boil-user-need{max-width:65ch}
+ .pair-pop-layout{gap:32px}.daily-spec{padding:24px}.daily-states{gap:16px}.daily-states figure{padding:14px}
+}
+@media(max-width:767px){
+ .case-body--designed .chapter-heading{margin-bottom:28px}
+ .case-body .system-flow{grid-template-columns:1fr;margin:24px 0;gap:0}
+ .system-flow li,.system-flow li+li{padding:20px 0 24px 48px;border-top:0;border-left:1px solid #bdd0dc;margin-left:12px}
+ .system-flow li:last-child{padding-bottom:0;border-color:transparent}
+ .system-flow .study-step,.system-flow li+li .study-step{left:-13px;top:18px;padding:0;width:26px;text-align:center}
+ .system-flow .study-icon{margin:0 0 12px}
+ .release-receipt{gap:12px;padding:18px 0}
+ .break-policies{gap:28px}.break-policies article{padding:0 0 24px}
+ .daily-spec{padding:20px}.daily-states{grid-template-columns:1fr;gap:20px}.daily-states figure{padding:18px}
+ .daily-shared{grid-template-columns:24px minmax(0,1fr);gap:10px 12px;align-items:start}
+ .daily-shared>.case-eyebrow{grid-column:2;grid-row:1}.daily-shared>.study-icon{grid-column:1;grid-row:1/3;margin-top:3px}
+ .daily-shared>p:last-child{grid-column:2;font-size:16px}
+ .break-option{padding:18px;align-items:flex-start;font-size:15px}.break-option .study-icon{margin-top:3px}
+ .pair-pop-layout{grid-template-columns:1fr;gap:32px}.pair-state-flow{gap:18px}
+ .library-principle{gap:16px}.library-principle h3{font-size:20px}
+ .karisma-cv-question{grid-template-columns:minmax(0,1fr);gap:20px;max-width:none}
+ .karisma-cv{padding:24px}.karisma-cv-question .study-connector--horizontal{width:1px;height:28px;margin-left:24px}
+ .karisma-cv-question .study-connector--horizontal::after{bottom:0;left:-3px;right:auto;transform:rotate(45deg)}
+ .karisma-cv-question>p{font-size:32px;padding-left:24px}.karisma-cv-question>p br{display:none}
+ .case-body .karisma-journey{gap:24px;margin-bottom:32px}.karisma-journey li{padding-bottom:20px}.karisma-journey h3{font-size:21px}
+ .karisma-skills-layout,.karisma-learning-layout,.karisma-contribution{grid-template-columns:1fr;gap:28px}
+ .karisma-user-need,.karisma-learning-intent{padding-top:0}.karisma-skills{padding:18px}
+ .boil-problem-flow{grid-template-columns:1fr;gap:20px}
+ .boil-save-once{flex-direction:row;justify-content:flex-start;padding-left:24px;gap:16px}
+ .boil-save-once .study-connector--horizontal{height:28px;width:1px}
+ .boil-save-once .study-connector--horizontal::after{bottom:0;left:-3px;right:auto;transform:rotate(45deg)}
+ .boil-old-project dl{grid-template-columns:110px minmax(0,1fr);gap:16px}.boil-old-project dd{margin-bottom:0}
+ .boil-revision-grid{grid-template-columns:1fr;gap:32px}.boil-revision-card,.boil-project-card{min-height:0;padding:24px}
+}
+
+/* Connections are drawn at the same weight as the outline icons. */
+.break-journey li+li::before{content:'';width:12px;height:1px;left:-22px;top:12px;background:currentColor}
+.pair-turn li::after{content:'';width:1px;height:28px;left:50%;top:100%;background:#91b2c5}
+@media(max-width:767px){.break-journey li+li::before{width:1px;height:14px;left:0;top:-20px}}

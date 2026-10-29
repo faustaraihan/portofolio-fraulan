@@ -1,0 +1,17 @@
+---
+import { blastrotArtwork, type Project } from '../../data/projects';
+interface Props { project: Project; }
+const { project } = Astro.props;
+---
+<div class="blastrot-scene" data-blast-scene>
+  <div class="blastrot-mascot" data-blast-layer="rotling">
+    <img src={project.cover} alt={project.coverAlt} width={project.coverWidth} height={project.coverHeight} loading="lazy" decoding="async" />
+  </div>
+  <div class="blastrot-games" data-blast-layer="games" role="group" aria-label="Original game artwork">
+    {blastrotArtwork.map(game => <figure class="blastrot-game">
+      <img src={game.src} alt="" width={game.width} height={game.height} loading="lazy" decoding="async" />
+      <figcaption>{game.name}</figcaption>
+    </figure>)}
+  </div>
+  <p class="blastrot-preview-note">Artwork preview · not gameplay footage</p>
+</div>

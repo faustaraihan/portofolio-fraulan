@@ -1,0 +1,5 @@
+@font-face{font-family:'DM Sans';src:url('/fonts/dm-sans.woff2') format('woff2');font-style:normal;font-weight:400 700;font-display:swap}
+@font-face{font-family:'Instrument Serif';src:url('/fonts/instrument-serif-italic-latin.woff2') format('woff2');font-style:italic;font-weight:400;font-display:swap}
+:root{--bg:#fcfdfe;--surface:#f2f8fb;--ink:#102a3a;--body:#365365;--link-hover:#285e7b;--muted:#526775;--accent:#dceff8;--mist:#f2f8fb;--line:#dce6ec;--content-max:1312px;--reading-max:65ch;--page-edge:64px;--grid-gap:24px;font-family:'DM Sans',Arial,sans-serif;color:var(--ink);background:var(--bg);font-synthesis:none;color-scheme:light}
+@media(max-width:1023px){:root{--page-edge:32px}}
+@media(max-width:767px){:root{--page-edge:20px}}

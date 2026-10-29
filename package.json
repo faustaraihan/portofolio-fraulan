@@ -12,7 +12,12 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "check:content": "node scripts/check-content.mjs"
+    "check:content": "node scripts/check-content.mjs",
+    "check:motion": "node scripts/check-motion.mjs",
+    "check:home": "node scripts/check-home.mjs",
+    "check:cases": "node scripts/check-case-studies.mjs",
+    "check:release": "node scripts/check-release.mjs",
+    "build:preview": "node scripts/build-preview.mjs"
   },
   "dependencies": {
     "astro": "^7.3.1"

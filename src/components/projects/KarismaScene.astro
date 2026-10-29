@@ -1,0 +1,22 @@
+---
+import type { Project } from '../../data/projects';
+interface Props { project: Project; }
+const { project } = Astro.props;
+---
+<div class="karisma-flow" data-karisma-scene>
+  <figure class="karisma-overview">
+    <a class="project-media" data-karisma-evidence="overview" href={project.caseStudyPath ?? undefined} aria-label="View Karisma AI case study">
+      <img src={project.cover} alt={project.coverAlt} width={project.coverWidth} height={project.coverHeight} loading="lazy" decoding="async" />
+    </a>
+    <figcaption>Product overview</figcaption>
+  </figure>
+  <svg class="karisma-connection" viewBox="0 0 96 120" fill="none" aria-hidden="true" focusable="false">
+    <path data-karisma-stroke pathLength="1" d="M0 16H28Q40 16 40 28V88Q40 104 52 104H96" />
+  </svg>
+  {project.detail && <figure class="project-detail detail-karisma-ai">
+    <div class="karisma-detail-window" data-karisma-evidence="detail">
+      <img src={project.detail.src} alt={project.detail.alt} width={project.detail.width} height={project.detail.height} loading="lazy" decoding="async" />
+    </div>
+    <figcaption>{project.detail.caption}</figcaption>
+  </figure>}
+</div>
