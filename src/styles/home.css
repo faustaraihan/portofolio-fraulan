@@ -93,3 +93,8 @@
  .process-number{transition:color 220ms}
  .process-cards li:hover{z-index:2;transform:translateY(-8px) scale(1.02)}
 }
+
+/* The longer localized CV label gets its own space instead of a narrow column. */
+.about-cv{white-space:nowrap;flex-shrink:0}
+.about-links{flex-wrap:wrap}
+@media(max-width:767px){.about-links{flex-wrap:wrap;gap:16px}}

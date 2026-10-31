@@ -192,7 +192,7 @@ const id = {
   "breadcrumbLabel": "Jejak navigasi",
   "allWork": "Semua proyek",
   "projectNavigation": "Navigasi proyek",
-  "pageTitle": "Fausta Raihan Maulana | Product Engineer",
+  "pageTitle": "Fausta Raihan Maulana | Portofolio Product Engineer",
   "pageDescription": "Fausta Raihan Maulana memadukan pemahaman produk, desain, dan kode untuk membangun software yang bisa dipakai.",
   "ogImageAlt": "Fausta Raihan Maulana — fraulan.com, dengan pilihan proyek Codestroke, Blastrot, Karisma AI, dan Boilrplate.",
   "skipContent": "Langsung ke konten",

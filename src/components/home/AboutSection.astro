@@ -1,23 +1,31 @@
+---
+import type { Locale } from '../../i18n/routes.ts';
+import { ui } from '../../i18n/ui.ts';
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+const copy = ui[locale];
+
+---
 <section id="about" class="home-about wrap" aria-labelledby="about-heading">
-  <div class="about-heading"><p class="section-note">A little about me</p><h2 id="about-heading">The person behind the products.</h2></div>
+  <div class="about-heading"><p class="section-note">{copy.aboutEyebrow}</p><h2 id="about-heading">{copy.aboutHeading}</h2></div>
   <div class="about-grid">
     <div class="about-person">
-      <img class="about-portrait" src="/images/pendev/fausta-portrait.webp" alt="Portrait of Fausta Raihan Maulana" width="472" height="339" loading="lazy" decoding="async" />
-      <div class="about-identity"><p>Fausta Raihan Maulana</p><span>Semarang, Indonesia</span></div>
-      <div class="about-links"><nav class="profile-links" aria-label="Social profiles">
-        <a href="https://www.linkedin.com/in/faustaraihan" aria-label="LinkedIn profile"><img src="/images/pendev/social-linkedin.png" alt="" width="24" height="24" loading="lazy" /></a>
-        <a class="github-icon" href="https://github.com/faustaraihan" aria-label="GitHub profile"><img src="/images/pendev/social-github.png" alt="" width="26" height="26" loading="lazy" /></a>
-        <a href="https://www.instagram.com/faustaraihan/" aria-label="Instagram profile"><img src="/images/pendev/social-instagram.png" alt="" width="24" height="24" loading="lazy" /></a>
-      </nav><a class="button button-primary about-cv" href="/fausta-raihan-maulana-cv.pdf">Download CV <span aria-hidden="true">↗</span></a></div>
+      <img class="about-portrait" src="/images/pendev/fausta-portrait.webp" alt={copy.portraitAlt} width="472" height="339" loading="lazy" decoding="async" />
+      <div class="about-identity"><p>{copy.fullName}</p><span>{copy.location}</span></div>
+      <div class="about-links"><nav class="profile-links" aria-label={copy.socialProfiles}>
+        <a href="https://www.linkedin.com/in/faustaraihan" aria-label={copy.linkedinProfile}><img src="/images/pendev/social-linkedin.png" alt="" width="24" height="24" loading="lazy" /></a>
+        <a class="github-icon" href="https://github.com/faustaraihan" aria-label={copy.githubProfile}><img src="/images/pendev/social-github.png" alt="" width="26" height="26" loading="lazy" /></a>
+        <a href="https://www.instagram.com/faustaraihan/" aria-label={copy.instagramProfile}><img src="/images/pendev/social-instagram.png" alt="" width="24" height="24" loading="lazy" /></a>
+      </nav><a class="button button-primary about-cv" href="/fausta-raihan-maulana-cv.pdf">{copy.downloadCv}<span aria-hidden="true">↗</span></a></div>
     </div>
     <div class="about-story">
-      <p class="about-bio">I’m Fausta, a Computer Engineering graduate from Universitas Diponegoro, based in Semarang Regency, Indonesia. I bring product thinking, design, and hands-on engineering together to build software that is useful, clear, and maintainable.</p>
-      <section id="experience" class="about-experience" aria-labelledby="experience-heading"><h3 id="experience-heading" class="about-label">Experience</h3><ol>
-        <li><span class="experience-year">2026</span><div><h4>Coding Camp powered by DBS Foundation</h4><p>Full-Stack Developer Cohort · Apprenticeship</p></div></li>
-        <li><span class="experience-year">2024–25</span><div><h4>Bangkit Academy led by Google, Tokopedia, Gojek &amp; Traveloka</h4><p>Mobile Development Cohort · Apprenticeship</p></div></li>
-        <li><span class="experience-year">2024</span><div><h4>Diskominfo Kota Salatiga</h4><p>Software Engineer Intern</p></div></li>
+      <p class="about-bio">{copy.aboutBiography}</p>
+      <section id="experience" class="about-experience" aria-labelledby="experience-heading"><h3 id="experience-heading" class="about-label">{copy.experienceHeading}</h3><ol>
+        <li><span class="experience-year">2026</span><div><h4>{copy.codingCampName}</h4><p>{copy.codingCampRole}</p></div></li>
+        <li><span class="experience-year">2024–25</span><div><h4>{copy.bangkitName}</h4><p>{copy.bangkitRole}</p></div></li>
+        <li><span class="experience-year">2024</span><div><h4>{copy.diskominfoName}</h4><p>{copy.diskominfoRole}</p></div></li>
       </ol></section>
-      <div class="about-education"><h3 class="about-label">Education</h3><p>Bachelor of Computer Engineering · Universitas Diponegoro</p><span>Aug 2022–Jul 2026 · GPA 3.77/4.00</span></div>
+      <div class="about-education"><h3 class="about-label">{copy.educationHeading}</h3><p>{copy.educationDegree}</p><span>{copy.educationDates}</span></div>
     </div>
   </div>
 </section>

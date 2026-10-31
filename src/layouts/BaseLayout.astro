@@ -1,7 +1,10 @@
 ---
 import '../styles/global.css';
+import type { Locale } from '../i18n/routes.ts';
+import { ui } from '../i18n/ui.ts';
 
 interface Props {
+  locale?: Locale;
   title?: string;
   description?: string;
   canonical?: string;
@@ -10,9 +13,11 @@ interface Props {
   noindex?: boolean;
 }
 
+const { locale = 'en' } = Astro.props;
+const copy = ui[locale];
 const {
-  title = 'Fausta Raihan Maulana | Product Engineer',
-  description = 'Fausta Raihan Maulana connects product thinking, design, and code to build software people can use.',
+  title = copy.pageTitle,
+  description = copy.pageDescription,
   canonical,
   ogImage = '/og/fraulan.png',
   motion = false,
@@ -31,7 +36,7 @@ const personJsonLd = {
 };
 ---
 <!doctype html>
-<html lang="en" data-motion={motion ? undefined : 'static'}>
+<html lang={locale} data-motion={motion ? undefined : 'static'}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -47,13 +52,13 @@ const personJsonLd = {
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:alt" content="Fausta Raihan Maulana — fraulan.com, with selected work from Codestroke, Blastrot, Karisma AI, and Boilrplate." />
+    <meta property="og:image:alt" content={copy.ogImageAlt} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={absoluteOg} />
-    <meta name="twitter:image:alt" content="Fausta Raihan Maulana — fraulan.com, with selected work from Codestroke, Blastrot, Karisma AI, and Boilrplate." />
+    <meta name="twitter:image:alt" content={copy.ogImageAlt} />
     <link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/instrument-serif-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg?v=20261030" type="image/svg+xml" />
@@ -61,7 +66,7 @@ const personJsonLd = {
     <title>{title}</title>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#main-content">{copy.skipContent}</a>
     <slot />
   </body>
 </html>

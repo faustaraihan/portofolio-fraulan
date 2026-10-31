@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { getLocale, localizePath, homeHref, contentPaths } from '../src/i18n/routes.ts';
 import { ui } from '../src/i18n/ui.ts';
@@ -69,3 +70,24 @@ assert.match(getProject('boilrplate', 'id').study.eyebrow, /Konsep produk/);
 assert.equal(getProject('boilrplate', 'id').study.contextLabel, 'Pekerjaan');
 assert.equal(getProject('karisma-ai', 'id').study.chapters.find(c => c.id === 'experience').label, 'Alur penggunaan');
 console.log('PASS: five locale route pairs, safe fallbacks, complete UI dictionary, localized project copy with original facts/assets.');
+
+if (process.argv.includes('--home')) {
+  for (const locale of ['en','id']) {
+    const html = readFileSync(locale === 'id' ? 'dist/id/index.html' : 'dist/index.html', 'utf8').replaceAll('&#39;', "'");
+    assert.ok(html.includes('lang="' + locale + '"'));
+    assert.ok(html.includes(ui[locale].heroGreeting));
+    assert.ok(html.includes(ui[locale].processHeading));
+    assert.ok(html.includes(ui[locale].downloadCv));
+    assert.equal((html.match(/data-reel-tile/g) || []).length, 12);
+    assert.equal((html.match(/data-work-card/g) || []).length, 4);
+    assert.equal((html.match(/data-process-step/g) || []).length, 3);
+    assert.ok(html.includes('class="language-switch"'));
+    assert.ok(html.includes('href="/id/"'));
+    assert.ok(html.includes('href="/"'));
+    const footer = html.match(/<footer[\s\S]*?<\/footer>/)[0];
+    assert.ok(footer.includes('href="' + homeHref(locale,'work') + '"'));
+    assert.ok(footer.includes('href="' + homeHref(locale,'about') + '"'));
+    assert.ok(!html.includes('class="contact-profiles"'));
+  }
+  console.log('PASS: both Home languages, language controls, original content counts and locale-aware footer links.');
+}

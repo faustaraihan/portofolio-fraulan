@@ -1,19 +1,24 @@
 ---
+import type { Locale } from '../i18n/routes.ts';
+import { homeHref } from '../i18n/routes.ts';
+import { ui } from '../i18n/ui.ts';
 interface Props {
+  locale?: Locale;
   cvUrl?: string | null;
 }
 
 // The existing public PDF is checked by check:content; null omits the action.
-const { cvUrl = '/fausta-raihan-maulana-cv.pdf' } = Astro.props;
+const { cvUrl = '/fausta-raihan-maulana-cv.pdf', locale = 'en' } = Astro.props;
+const copy = ui[locale];
 ---
-<footer id="footer" class:list={["site-footer", { "site-footer--sky": Astro.url.pathname.startsWith("/work/") }]} aria-label="Footer">
+<footer id="footer" class:list={["site-footer", { "site-footer--sky": Astro.url.pathname.replace(/^\/id(?=\/)/, "").startsWith("/work/") }]} aria-label={copy.footerLabel}>
   <div class="footer-inner wrap">
     <div class="footer-top">
-      <nav class="footer-links" aria-label="Footer navigation">
-        <a href="/#work">Work</a>
-        <a href="/#about">About</a>
-        {cvUrl && <a href={cvUrl}>Download CV</a>}
-        <a href="/#contact">Contact</a>
+      <nav class="footer-links" aria-label={copy.footerNavigation}>
+        <a href={homeHref(locale, 'work')}>{copy.navWork}</a>
+        <a href={homeHref(locale, 'about')}>{copy.navAbout}</a>
+        {cvUrl && <a href={cvUrl}>{copy.downloadCv}</a>}
+        <a href={homeHref(locale, 'contact')}>{copy.navFooterContact}</a>
       </nav>
       <p class="footer-copyright">© {new Date().getFullYear()} Fausta Raihan Maulana</p>
     </div>

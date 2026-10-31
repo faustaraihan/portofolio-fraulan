@@ -1,21 +1,29 @@
+---
+import type { Locale } from '../../i18n/routes.ts';
+import { ui } from '../../i18n/ui.ts';
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+const copy = ui[locale];
+
+---
 <section id="product-mindset" class="product-mindset" aria-labelledby="mindset-heading">
   <div class="mindset-intro wrap">
-    <h2 id="mindset-heading" class="section-note">How I think, in a nutshell.</h2>
+    <h2 id="mindset-heading" class="section-note">{copy.mindsetHeading}</h2>
     <div class="mindset-statements">
-      <p><span class="mindset-badge badge-product"><span aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3h12v10H9l-4 4v-4H4Z"/><path d="M7 7h6M7 10h4"/></svg></span>Product thinking</span><span>to find the right problem.</span></p>
-      <p><span class="mindset-badge badge-design"><span aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3h12v10H9l-4 4v-4H4Z"/><path d="M7 7h6M7 10h4"/></svg></span>Design</span><span class="mindset-plus">+</span><span class="mindset-badge badge-engineering"><span aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 6-4 4 4 4m6-8 4 4-4 4m-2-9-2 10"/></svg></span>Engineering</span><span>to make it real.</span></p>
-      <p><span class="mindset-badge badge-feedback"><span aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3h12v10H9l-4 4v-4H4Z"/><path d="M7 7h6M7 10h4"/></svg></span>Feedback</span><span>to keep making it better.</span></p>
+      <p><span class="mindset-badge badge-product"><span aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3h12v10H9l-4 4v-4H4Z"/><path d="M7 7h6M7 10h4"/></svg></span>{copy.mindsetProduct}</span><span>{copy.mindsetProductOutcome}</span></p>
+      <p><span class="mindset-badge badge-design"><span aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3h12v10H9l-4 4v-4H4Z"/><path d="M7 7h6M7 10h4"/></svg></span>{copy.mindsetDesign}</span><span class="mindset-plus">+</span><span class="mindset-badge badge-engineering"><span aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 6-4 4 4 4m6-8 4 4-4 4m-2-9-2 10"/></svg></span>{copy.mindsetEngineering}</span><span>{copy.mindsetBuildOutcome}</span></p>
+      <p><span class="mindset-badge badge-feedback"><span aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3h12v10H9l-4 4v-4H4Z"/><path d="M7 7h6M7 10h4"/></svg></span>{copy.mindsetFeedback}</span><span>{copy.mindsetFeedbackOutcome}</span></p>
     </div>
   </div>
   <div class="process-section">
     <div class="wrap">
-      <div class="process-heading"><p class="section-note">From idea to iteration</p><h2>How I build products</h2></div>
+      <div class="process-heading"><p class="section-note">{copy.processEyebrow}</p><h2>{copy.processHeading}</h2></div>
       <div class="process-stage">
         <svg class="process-connectors" viewBox="0 0 1312 430" fill="none" aria-hidden="true"><g stroke="#3c9fcb" stroke-width="2" stroke-linecap="round"><path d="M12 77c2-59 43-85 106-35" transform="translate(368 22)"/><path d="M10 67c49 1 77-31 55-50-28-25-26 70 37 39" transform="translate(830 230)"/><g fill="#fcfdfe"><circle cx="380" cy="99" r="5"/><circle cx="486" cy="64" r="5"/><circle cx="840" cy="297" r="5"/><circle cx="932" cy="286" r="5"/></g></g></svg>
         <ol class="process-cards">
-          <li data-process-step><span class="process-number">01</span><div><h3>Understand</h3><p>Find the user need. Define the problem. Choose what matters.</p></div></li>
-          <li data-process-step><span class="process-number">02</span><div><h3>Build</h3><p>Shape the experience. Connect the design and code into working software.</p></div></li>
-          <li data-process-step><span class="process-number">03</span><div><h3>Improve</h3><p>Test the experience. Listen to feedback. Refine what needs to change.</p></div></li>
+          <li data-process-step><span class="process-number">01</span><div><h3>{copy.processUnderstand}</h3><p>{copy.processUnderstandDescription}</p></div></li>
+          <li data-process-step><span class="process-number">02</span><div><h3>{copy.processBuild}</h3><p>{copy.processBuildDescription}</p></div></li>
+          <li data-process-step><span class="process-number">03</span><div><h3>{copy.processImprove}</h3><p>{copy.processImproveDescription}</p></div></li>
         </ol>
       </div>
     </div>

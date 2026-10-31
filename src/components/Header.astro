@@ -1,12 +1,26 @@
+---
+import type { Locale } from '../i18n/routes.ts';
+import { homeHref, localizePath } from '../i18n/routes.ts';
+import { ui } from '../i18n/ui.ts';
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+const copy = ui[locale];
+// The translated case-study routes join the switcher in Task 4.
+const showLanguageSwitch = Astro.url.pathname === '/' || Astro.url.pathname === '/id/';
+---
 <header class="site-header">
   <div class="header-inner">
-    <a class="wordmark" href="/" aria-label="Fraulan home">
+    <a class="wordmark" href={homeHref(locale)} aria-label={copy.homeLabel}>
       <img src="/images/pendev/fraulan-mark.svg" alt="" width="36" height="36" />
     </a>
-    <nav class="desktop-nav" aria-label="Primary navigation">
-      <a class="nav-link" href="/#work">Work</a>
-      <a class="nav-link" href="/#about">About</a>
-      <a class="nav-contact" href="/#contact">Let’s talk <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg></a>
+    <nav class:list={['desktop-nav', { 'has-language-switch': showLanguageSwitch }]} aria-label={copy.primaryNavigation}>
+      <a class="nav-link" href={homeHref(locale, 'work')}>{copy.navWork}</a>
+      <a class="nav-link" href={homeHref(locale, 'about')}>{copy.navAbout}</a>
+      {showLanguageSwitch && <span class="language-switch" role="group" aria-label={locale === 'id' ? 'Bahasa' : 'Language'}>
+        <a href={localizePath(Astro.url.pathname, 'en')} lang="en" hreflang="en" aria-label={copy.languageEnglish} aria-current={locale === 'en' ? 'page' : undefined}>EN</a>
+        <a href={localizePath(Astro.url.pathname, 'id')} lang="id" hreflang="id" aria-label={copy.languageIndonesian} aria-current={locale === 'id' ? 'page' : undefined}>ID</a>
+      </span>}
+      <a class="nav-contact" href={homeHref(locale, 'contact')}><span>{copy.navContact}</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg></a>
     </nav>
   </div>
 </header>

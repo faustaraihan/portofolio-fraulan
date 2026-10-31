@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../Header.astro';
+import Footer from '../Footer.astro';
+import ProjectTeaser from '../ProjectTeaser.astro';
+import ProductReel from './ProductReel.astro';
+import ProductMindset from './ProductMindset.astro';
+import AboutSection from './AboutSection.astro';
+import { projects, getProject } from '../../data/projects';
+import type { Locale } from '../../i18n/routes.ts';
+import { ui } from '../../i18n/ui.ts';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = ui[locale];
+const localizedProjects = projects.map(project => getProject(project.slug, locale)!);
+---
+<BaseLayout locale={locale} motion={false}>
+  <div class="home-page">
+    <Header locale={locale} />
+    <main id="main-content" tabindex="-1">
+      <section id="home-hero" class="home-hero wrap" aria-labelledby="hero-heading">
+        <div class="hero-copy">
+          <p class="hero-identity">{copy.fullName}</p>
+          <h1 id="hero-heading">{copy.heroGreeting}<em>{copy.heroRole}</em></h1>
+          <p class="hero-introduction">{copy.heroIntroductionStart}<br class="desktop-break" /> {copy.heroIntroductionEnd}</p>
+          <a class="hero-action" href="#work">{copy.exploreWork}<span aria-hidden="true">↘</span></a>
+        </div>
+        <nav class="project-index" aria-label={copy.projectShortcuts}><p>{copy.projectIndexStart}<br /> {copy.projectIndexEnd}</p>{localizedProjects.map(project => <a href={`#project-${project.slug}`} aria-label={project.name}><img src={project.home.logo.src} alt="" width={project.home.logo.width} height={project.home.logo.height} />{!project.home.logo.wordmark && <span>{project.name === 'Karisma AI' ? project.name : project.name.toLowerCase()}</span>}</a>)}</nav>
+      </section>
+      <ProductReel locale={locale} />
+      <ProductMindset locale={locale} />
+      <section id="work" class="home-work" aria-labelledby="work-heading">
+        <div class="wrap"><div class="home-work-heading"><p class="section-note">{copy.workEyebrow}</p><h2 id="work-heading">{copy.workHeading}</h2></div><div class="work-gallery">{localizedProjects.map(project => <ProjectTeaser project={project} locale={locale} />)}</div></div>
+      </section>
+      <AboutSection locale={locale} />
+      <section id="contact" class="home-contact" aria-labelledby="contact-heading"><div class="contact-layout wrap"><div><p class="contact-eyebrow">{copy.contactEyebrow}</p><h2 id="contact-heading">{copy.contactHeadingStart}<em>{copy.contactHeadingEnd}</em></h2></div><div class="contact-details"><p>{copy.contactIntroduction}</p><a class="button button-primary contact-email" href="mailto:faustaraihan69@gmail.com">{copy.email}<span aria-hidden="true">↗</span></a></div></div></section>
+    </main>
+    <Footer locale={locale} />
+  </div>
+</BaseLayout>

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { projects } from '../src/data/projects.ts';
 
-const html = readFileSync('dist/index.html', 'utf8');
+const html = readFileSync('dist/index.html', 'utf8').replaceAll('&#39;', "'");
 const sections = ['home-hero', 'product-reel', 'product-mindset', 'work', 'about', 'contact'];
 const positions = sections.map(id => html.indexOf(`id="${id}"`));
 assert.ok(positions.every(position => position >= 0), 'Home contains all six design sections');

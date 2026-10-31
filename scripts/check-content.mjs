@@ -41,14 +41,14 @@ for (const mutate of [
 }
 const dist = resolve('dist');
 assert.ok(existsSync(dist), 'Run npm run build before checking output');
-const pages = ['index.html', 'work/codestroke/index.html', 'work/blastrot/index.html', 'work/boilrplate/index.html', 'work/karisma-ai/index.html', '404.html'];
+const pages = ['index.html', 'id/index.html', 'work/codestroke/index.html', 'work/blastrot/index.html', 'work/boilrplate/index.html', 'work/karisma-ai/index.html', '404.html'];
 const attrs = tag => Object.fromEntries([...tag.matchAll(/([\w:-]+)\s*=\s*"([^"]*)"/g)].map(m => [m[1], m[2]]));
 const titles = new Set();
 const descriptions = new Set();
 let links = 0, images = 0, inlineJs = 0;
 for (const file of pages) {
   const html = readFileSync(join(dist, file), 'utf8');
-  assert.match(html, /<html[^>]*lang="en"/);
+  assert.ok(html.includes('lang="' + (file.startsWith('id/') ? 'id' : 'en') + '"'), file + ': correct document language');
   assert.equal((html.match(/<h1(?:\s|>)/g) || []).length, 1, `${file}: one H1`);
   const inlineScripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)].filter(m => !/application\/ld\+json/.test(m[1])).map(m => m[2]).join('\n');
   inlineJs = Math.max(inlineJs, inlineScripts ? gzipSync(inlineScripts).length : 0);
