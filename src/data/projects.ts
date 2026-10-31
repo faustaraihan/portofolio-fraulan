@@ -1,3 +1,5 @@
+import type { Locale } from '../i18n/routes.ts';
+
 export type ProjectStatus = 'project' | 'in-progress';
 
 type HomePresentation = {
@@ -213,7 +215,208 @@ export const projects: Project[] = [
   },
 ];
 
-export const getProject = (slug: string) => projects.find((project) => project.slug === slug);
+type ProjectTranslation = Pick<Project, 'eyebrow' | 'summary' | 'contribution' | 'contributionLabel' | 'coverAlt'> & {
+  workbenchLabel?: string;
+  home: Pick<HomePresentation, 'summary' | 'category' | 'label' | 'caption'> & { previewAlt: string };
+  study: Pick<CaseStudyPresentation, 'eyebrow' | 'deck' | 'description' | 'role' | 'focus' | 'context'> & {
+    roleLabel?: string;
+    focusLabel?: string;
+    contextLabel?: string;
+    overview: Pick<CaseStudyPresentation['overview'], 'alt' | 'caption' | 'label' | 'summary'>;
+    chapters: string[];
+    flow?: { title: string; description: string }[];
+  };
+  detail?: Pick<NonNullable<Project['detail']>, 'alt' | 'caption'>;
+};
+
+// Presentation text only: all identities, statuses, routes and media remain above.
+const idProjectCopy: Record<string, ProjectTranslation> = {
+  "codestroke": {
+    "eyebrow": "Tool developer / proyek mandiri",
+    "summary": "Platform latihan mengetik untuk developer yang bisa dicoba tanpa akun, memakai kode asli, dan menampilkan kecepatan serta akurasi.",
+    "contribution": "Menyiapkan fitur baru sambil terus memperbaiki fungsi, pengalaman pengguna, desain, performa, dan keandalan website.",
+    "contributionLabel": "Fokus saat ini",
+    "coverAlt": "Tampilan gelap Codestroke dengan kode, pilihan bahasa, dan metrik selama sesi",
+    "home": {
+      "summary": "Latihan mengetik dengan kode asli.",
+      "category": "Tool developer",
+      "label": "Proyek mandiri",
+      "caption": "Typing, Learn, panduan JavaScript & leaderboard publik · Tangkapan antarmuka asli",
+      "previewAlt": "Tampilan latihan mengetik Codestroke, Learn, panduan JavaScript, dan leaderboard publik"
+    },
+    "study": {
+      "eyebrow": "Produk mandiri",
+      "deck": "Latihan mengetik kode, bukan teks biasa.",
+      "description": "Latihan mengetik yang berfokus pada kode, tanda baca, dan sintaks.",
+      "role": "Product thinking · UI/UX\nPengembangan full-stack · Testing",
+      "focus": "Latihan mengetik berbasis kode",
+      "context": "Proyek mandiri · Terus diperbaiki\nReact · TypeScript · Supabase",
+      "overview": {
+        "alt": "Tampilan publik Codestroke dengan kode, pilihan bahasa, durasi sesi, dan metrik",
+        "caption": "Tampilan produk publik. Nilai sesi hanya contoh UI, bukan metrik dampak portofolio."
+      },
+      "chapters": [
+        "Masalah",
+        "Story map",
+        "Implementasi",
+        "Pembelajaran"
+      ],
+      "flow": [
+        {
+          "title": "Pilih konteks",
+          "description": "Bahasa + 30 / 60 / 120 detik."
+        },
+        {
+          "title": "Ketik potongan kode",
+          "description": "Timer dimulai saat tombol pertama ditekan."
+        },
+        {
+          "title": "Tinjau & coba lagi",
+          "description": "Hasil → coba lagi atau simpan progres."
+        }
+      ]
+    },
+    "detail": {
+      "alt": "Presentasi antarmuka terang Codestroke dengan kode dan contoh metrik sesi",
+      "caption": "Presentasi antarmuka terang. Nilai sesi hanya contoh."
+    }
+  },
+  "blastrot": {
+    "eyebrow": "Mini-game / sedang dikembangkan",
+    "summary": "Mini-game untuk jeda yang menyenangkan, dengan koleksi yang terus bertambah dan ruang bermain tanpa akun.",
+    "contribution": "Source saat ini mencakup koleksi permainan dan rute bermain tanpa akun untuk Pair Pop, Odd One Out, dan Number Trail.",
+    "contributionLabel": "Kondisi saat ini",
+    "coverAlt": "Karakter Rotling dari Blastrot bermain di awan putih bersama bentuk-bentuk permainan berwarna",
+    "workbenchLabel": "Koleksi permainan dan ruang bermain tanpa akun",
+    "home": {
+      "summary": "Permainan singkat. Jeda yang menyenangkan.",
+      "category": "Permainan asah otak",
+      "label": "Sedang dikembangkan",
+      "caption": "Daily Mix, Pair Pop, koleksi & library · Pratinjau desain Pen asli",
+      "previewAlt": "Pratinjau desain Blastrot untuk Daily Mix, Pair Pop, Sticker Book, dan koleksi permainan"
+    },
+    "study": {
+      "eyebrow": "Produk mandiri",
+      "deck": "Istirahat di laptop, tanpa beralih ke feed.",
+      "description": "Istirahat lewat browser tanpa perlu mengambil ponsel.",
+      "role": "Desain & pengembangan produk",
+      "focus": "Perumusan masalah → Aturan produk → Implementasi",
+      "context": "Desain · Prototipe sistem permainan · Terus diperbaiki",
+      "overview": {
+        "alt": "Desain Home Blastrot saat ini dengan kondisi lanjut Daily Mix, sidebar, dan ilustrasi Rotling asli",
+        "caption": "Desain produk saat ini · kondisi antarmuka ilustratif"
+      },
+      "chapters": [
+        "Masalah",
+        "Keputusan",
+        "Daily Mix",
+        "Pair Pop",
+        "Desain permainan",
+        "Evaluasi"
+      ]
+    }
+  },
+  "karisma-ai": {
+    "eyebrow": "Arah karier / proyek tim",
+    "summary": "Membantu menjelajahi arah karier lewat analisis CV, kesenjangan skill, dan rencana belajar yang disesuaikan.",
+    "contribution": "Diskusi fitur awal, UI di Figma, pengembangan full-stack, dan presentasi akhir bersama tim beranggotakan enam orang.",
+    "contributionLabel": "Kontribusi saya",
+    "coverAlt": "Tampilan navigasi karier Karisma AI dengan analisis CV dan rencana belajar",
+    "home": {
+      "summary": "Arah yang lebih jelas untuk langkah berikutnya.",
+      "category": "Arah karier",
+      "label": "Proyek tim",
+      "caption": "Landing, login & detail analisis · Tim enam orang · Nilai UI hanya contoh",
+      "previewAlt": "Landing, login, dan panel ilustratif Karisma AI untuk skill, kecocokan karier, serta rencana belajar"
+    },
+    "study": {
+      "eyebrow": "Proyek akhir tim",
+      "deck": "Dari CV, temukan arah yang bisa dijelajahi.",
+      "description": "Arah karier dan langkah belajar yang berangkat dari pengalaman mahasiswa itu sendiri.",
+      "role": "Full-Stack Developer",
+      "focus": "Diskusi fitur · UI di Figma\nPengembangan full-stack · Presentasi akhir",
+      "context": "Tim proyek akhir beranggotakan enam orang\nData science · AI · Full-stack",
+      "focusLabel": "Kontribusi",
+      "contextLabel": "Tim",
+      "overview": {
+        "alt": "Komponen kecocokan karier Karisma AI dengan contoh skor 78%, skill yang cocok, dan skill yang tidak ditemukan dalam contoh CV",
+        "caption": "Antarmuka aplikasi · data dan skor ilustratif",
+        "label": "Pengalaman menggunakan produk",
+        "summary": "Jelajahi satu arah karier beserta skill yang terkait."
+      },
+      "chapters": [
+        "Masalah",
+        "Alur penggunaan",
+        "Pilihan desain",
+        "Langkah berikutnya",
+        "Kontribusi"
+      ]
+    },
+    "detail": {
+      "alt": "Detail presentasi Karisma AI dengan skill yang ditemukan, kesenjangan skill, dan rencana belajar",
+      "caption": "Skill, kesenjangan & rencana belajar. Nilai UI hanya contoh, bukan hasil yang sudah diukur."
+    }
+  },
+  "boilrplate": {
+    "eyebrow": "Workspace developer / proyek mandiri",
+    "summary": "Workspace untuk penggunaan pribadi yang membantu menyusun setup proyek yang bisa dipakai ulang dan mengekspor panduan yang aman bagi pengguna maupun AI coding agent.",
+    "contribution": "Arah produk dan implementasi sistem untuk Blocks, Modules, revisi berversi, Projects, dan ekspor deterministik.",
+    "contributionLabel": "Fokus saat ini",
+    "coverAlt": "Wordmark Boilrplate di atas latar gradasi monokrom",
+    "workbenchLabel": "Setup proyek yang bisa dipakai ulang",
+    "home": {
+      "summary": "Keputusan proyek yang bisa dipakai lagi.",
+      "category": "Workspace developer",
+      "label": "Sedang dikembangkan",
+      "caption": "Konsep produk · Blocks, Projects & ekspor yang terikat revisi tertentu",
+      "previewAlt": "Konsep produk Boilrplate untuk Blocks, Modules, Projects yang terikat revisi tertentu, dan panduan hasil ekspor"
+    },
+    "study": {
+      "eyebrow": "Konsep produk / perencanaan",
+      "deck": "Mulai proyek berikutnya tanpa mengulang dari nol.",
+      "description": "Simpan pilihan proyek sekali. Pakai lagi saat membangun berikutnya.",
+      "role": "Developer mandiri",
+      "focus": "Lebih sedikit setup berulang\nLebih banyak kendali atas perubahan",
+      "context": "Strategi produk · Perencanaan UX",
+      "roleLabel": "Untuk",
+      "contextLabel": "Pekerjaan",
+      "overview": {
+        "alt": "Konsep produk Boilrplate: Personal Web Setup menggabungkan pilihan antarmuka dan panduan agent, berdampingan dengan pratinjau brief proyek berisi README.md, AGENTS.md, dan boilrplate.json; bukan aplikasi yang sedang berjalan",
+        "label": "Satu setup tersimpan → Brief proyek yang jelas"
+      },
+      "chapters": [
+        "Masalah",
+        "Fokus",
+        "Idenya",
+        "Yang ingin diuji"
+      ]
+    }
+  }
+};
+
+export function getProject(slug: string, locale: Locale = 'en'): Project | undefined {
+  const project = projects.find(project => project.slug === slug);
+  if (!project || locale === 'en') return project;
+  const copy = idProjectCopy[slug];
+  if (!copy || !project.study) throw new Error('Missing Indonesian project copy: ' + slug);
+  if (copy.study.chapters.length !== project.study.chapters.length || copy.study.flow?.length !== project.study.flow?.length) {
+    throw new Error('Indonesian study structure differs: ' + slug);
+  }
+  const { home, study, detail, ...text } = copy;
+  const { previewAlt, ...homeText } = home;
+  return {
+    ...project,
+    ...text,
+    home: { ...project.home, ...homeText, preview: { ...project.home.preview, alt: previewAlt } },
+    study: {
+      ...project.study,
+      ...study,
+      overview: { ...project.study.overview, ...study.overview },
+      chapters: project.study.chapters.map((chapter, index) => ({ ...chapter, label: study.chapters[index] })),
+    },
+    ...(project.detail && detail ? { detail: { ...project.detail, ...detail } } : {}),
+  };
+}
 
 export const blastrotArtwork = [
   { name: 'Pair Pop', src: '/images/blastrot/pair-pop.png', width: 332, height: 332 },
