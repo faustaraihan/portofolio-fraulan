@@ -166,7 +166,7 @@ const id = {
   "aboutEyebrow": "Sedikit tentang saya",
   "aboutHeading": "Kenalan dengan orang di balik produknya.",
   "location": "Semarang, Indonesia",
-  "aboutBiography": "Saya Fausta, lulusan Teknik Komputer dari Universitas Diponegoro yang tinggal di Kabupaten Semarang, Indonesia. Saya memadukan pemahaman produk, desain, dan pengembangan langsung untuk membangun software yang berguna, jelas, dan mudah dirawat.",
+  "aboutBiography": "Saya Fausta, lulusan Teknik Komputer dari Universitas Diponegoro yang tinggal di Kabupaten Semarang, Indonesia. Saya memadukan pemahaman produk, desain, dan pengembangan langsung untuk membangun software yang berguna, jelas, dan mudah di-maintain.",
   "experienceHeading": "Pengalaman",
   "codingCampName": "Coding Camp powered by DBS Foundation",
   "codingCampRole": "Full-Stack Developer Cohort · Apprenticeship",
