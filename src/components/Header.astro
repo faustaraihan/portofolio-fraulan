@@ -18,7 +18,7 @@ const showLanguageSwitch = Astro.url.pathname === '/' || Astro.url.pathname === 
       <a class="nav-link" href={homeHref(locale, 'work')}>{copy.navWork}</a>
       <a class="nav-link" href={homeHref(locale, 'about')}>{copy.navAbout}</a>
       {showLanguageSwitch && <a class="language-switch" href={localizePath(Astro.url.pathname, targetLocale)} hreflang={targetLocale} aria-label={targetLocale === 'id' ? copy.languageIndonesian : copy.languageEnglish} title={targetLocale === 'id' ? copy.languageIndonesian : copy.languageEnglish}>
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h12M9 3v2M5 5c0 6 3 9 8 11M13 5c-1 5-4 9-9 12M14 21l4-10 4 10M15.5 17h5" /></svg>
+        <svg width="17" height="17" aria-hidden="true" viewBox="0 0 256 256" fill="currentColor"><path d="M247.15,212.42l-56-112a8,8,0,0,0-14.31,0l-21.71,43.43A88,88,0,0,1,108,126.93,103.65,103.65,0,0,0,135.69,64H160a8,8,0,0,0,0-16H104V32a8,8,0,0,0-16,0V48H32a8,8,0,0,0,0,16h87.63A87.76,87.76,0,0,1,96,116.35a87.74,87.74,0,0,1-19-31,8,8,0,1,0-15.08,5.34A103.63,103.63,0,0,0,84,127a87.55,87.55,0,0,1-52,17,8,8,0,0,0,0,16,103.46,103.46,0,0,0,64-22.08,104.18,104.18,0,0,0,51.44,21.31l-26.6,53.19a8,8,0,0,0,14.31,7.16L148.94,192h70.11l13.79,27.58A8,8,0,0,0,240,224a8,8,0,0,0,7.15-11.58ZM156.94,176,184,121.89,211.05,176Z"/></svg>
         <span>{locale.toUpperCase()}</span>
       </a>}
       <a class="nav-contact" href={homeHref(locale, 'contact')}><span>{copy.navContact}</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg></a>
