@@ -71,7 +71,7 @@ assert.equal(getProject('boilrplate', 'id').study.contextLabel, 'Pekerjaan');
 assert.equal(getProject('karisma-ai', 'id').study.chapters.find(c => c.id === 'experience').label, 'Alur penggunaan');
 console.log('PASS: five locale route pairs, safe fallbacks, complete UI dictionary, localized project copy with original facts/assets.');
 
-if (process.argv.includes('--home')) {
+if (!process.argv.includes('--source-only')) {
   for (const locale of ['en','id']) {
     const html = readFileSync(locale === 'id' ? 'dist/id/index.html' : 'dist/index.html', 'utf8').replaceAll('&#39;', "'");
     assert.ok(html.includes('lang="' + locale + '"'));
@@ -97,7 +97,7 @@ if (process.argv.includes('--home')) {
   console.log('PASS: both Home languages, language controls, original content counts and locale-aware footer links.');
 }
 
-if (process.argv.includes('--cases')) {
+if (!process.argv.includes('--source-only')) {
   const sitemap = readFileSync('public/sitemap.xml', 'utf8');
   for (const locale of ['en','id']) {
     for (const path of contentPaths) {
@@ -137,4 +137,17 @@ if (process.argv.includes('--cases')) {
   assert.equal((sitemap.match(/<loc>/g)||[]).length,10);
   assert.ok(!sitemap.includes('404'));
   console.log('PASS: ten localized pages, reciprocal metadata/sitemap, same-project switch and locale-preserving navigation.');
+}
+
+if (!process.argv.includes('--source-only')) {
+  const errorPage = readFileSync('dist/404.html','utf8');
+  assert.match(errorPage, /lang="en"/);
+  assert.match(errorPage, /name="robots" content="noindex, nofollow"/);
+  assert.ok(errorPage.includes('href="/id/"'));
+  assert.ok(!errorPage.includes('rel="alternate"'));
+  const cv = readFileSync('public/fausta-raihan-maulana-cv.pdf');
+  assert.equal(cv.subarray(0,5).toString(), '%PDF-');
+  assert.deepEqual(readFileSync('dist/fausta-raihan-maulana-cv.pdf'),cv);
+  for (const file of ['dist/index.html','dist/id/index.html']) assert.ok(readFileSync(file,'utf8').includes('href="/fausta-raihan-maulana-cv.pdf"'));
+  console.log('PASS: 404 language fallback/noindex and identical valid CV download in the build.');
 }
