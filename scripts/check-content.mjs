@@ -41,7 +41,7 @@ for (const mutate of [
 }
 const dist = resolve('dist');
 assert.ok(existsSync(dist), 'Run npm run build before checking output');
-const pages = ['index.html', 'id/index.html', 'work/codestroke/index.html', 'work/blastrot/index.html', 'work/boilrplate/index.html', 'work/karisma-ai/index.html', '404.html'];
+const pages = ['index.html', 'id/index.html', ...projects.flatMap(p => ['work/' + p.slug + '/index.html', 'id/work/' + p.slug + '/index.html']), '404.html'];
 const attrs = tag => Object.fromEntries([...tag.matchAll(/([\w:-]+)\s*=\s*"([^"]*)"/g)].map(m => [m[1], m[2]]));
 const titles = new Set();
 const descriptions = new Set();

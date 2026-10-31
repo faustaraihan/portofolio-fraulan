@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { ui } from '../i18n/ui.ts';
 ---
 <BaseLayout motion={false} noindex={true} canonical="/404.html" title="Page not found | Fausta Raihan Maulana" description="This page is not part of Fausta Raihan Maulana’s portfolio.">
   <Header />
@@ -9,7 +10,7 @@ import Footer from '../components/Footer.astro';
     <p class="section-marker">404 / Lost in the build</p>
     <h1>This page<br /><em>isn’t here.</em></h1>
     <p>The link may have moved, or the route never shipped.</p>
-    <a class="button button-primary" href="/">Back home <span aria-hidden="true">↗</span></a>
+    <div class="not-found-actions"><a class="button button-primary" href="/" lang="en" aria-label={ui.en.homeEnglish}>Back home <span aria-hidden="true">↗</span></a><a class="button button-secondary" href="/id/" lang="id">{ui.id.homeIndonesian}</a></div>
   </main>
   <Footer />
 </BaseLayout>

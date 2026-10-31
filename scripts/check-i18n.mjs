@@ -96,3 +96,45 @@ if (process.argv.includes('--home')) {
   }
   console.log('PASS: both Home languages, language controls, original content counts and locale-aware footer links.');
 }
+
+if (process.argv.includes('--cases')) {
+  const sitemap = readFileSync('public/sitemap.xml', 'utf8');
+  for (const locale of ['en','id']) {
+    for (const path of contentPaths) {
+      const localizedPath = localizePath(path, locale);
+      const file = localizedPath === '/' ? 'dist/index.html' : 'dist' + localizedPath + 'index.html';
+      const html = readFileSync(file, 'utf8');
+      assert.ok(html.includes('lang="' + locale + '"'), file);
+      assert.ok(html.includes('rel="canonical" href="https://fraulan.com' + localizedPath + '"'), file);
+      for (const language of ['en','id','x-default']) {
+        const target = localizePath(path, language === 'id' ? 'id' : 'en');
+        assert.ok(html.includes('rel="alternate" hreflang="' + language + '" href="https://fraulan.com' + target + '"'), file + ': alternate ' + language);
+      }
+      assert.ok(sitemap.includes('<loc>https://fraulan.com' + localizedPath + '</loc>'));
+      const toggle = html.match(/<a class="language-switch"[\s\S]*?<\/a>/)?.[0];
+      assert.ok(toggle?.includes('href="' + localizePath(path,locale === 'en' ? 'id' : 'en') + '"'), file + ': counterpart toggle');
+      if (path === '/') {
+        for (const project of projects) assert.ok(html.includes('href="' + localizePath(project.caseStudyPath, locale) + '"'));
+      } else {
+        assert.ok(html.includes('href="' + homeHref(locale,'work') + '"'));
+        const project = projects.find(p => p.caseStudyPath === path);
+        const index = projects.indexOf(project);
+        for (const other of [projects[(index+3)%4],projects[(index+1)%4]]) assert.ok(html.includes('href="' + localizePath(other.caseStudyPath,locale) + '"'));
+        const original = readFileSync('src/pages/work/' + project.slug + '.md','utf8');
+        const chapterIds = [...original.matchAll(/<section id="([^"]+)"/g)].map(m=>m[1]);
+        for (const id of chapterIds) assert.equal((html.match(new RegExp('id="' + id + '"','g')) || []).length,1);
+        if (locale === 'id') {
+          assert.ok(html.includes('site-footer--sky'));
+          assert.ok(html.includes('Proyek sebelumnya'));
+          assert.ok(html.includes('Proyek berikutnya'));
+          assert.ok(html.includes('Semua proyek'));
+          const navigationHtml = html.replace(/<a class="language-switch"[\s\S]*?<\/a>/, '');
+          assert.ok(!/href="\/(?:work\/|#(?:work|about|contact))/.test(navigationHtml), file + ': no EN navigation escape except the language switch');
+        }
+      }
+    }
+  }
+  assert.equal((sitemap.match(/<loc>/g)||[]).length,10);
+  assert.ok(!sitemap.includes('404'));
+  console.log('PASS: ten localized pages, reciprocal metadata/sitemap, same-project switch and locale-preserving navigation.');
+}

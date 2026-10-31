@@ -1,13 +1,12 @@
 ---
 import type { Locale } from '../i18n/routes.ts';
-import { homeHref, localizePath } from '../i18n/routes.ts';
+import { homeHref, localizePath, contentPaths } from '../i18n/routes.ts';
 import { ui } from '../i18n/ui.ts';
 interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
 const copy = ui[locale];
 const targetLocale: Locale = locale === 'en' ? 'id' : 'en';
-// The translated case-study routes join the switcher in Task 4.
-const showLanguageSwitch = Astro.url.pathname === '/' || Astro.url.pathname === '/id/';
+const showLanguageSwitch = contentPaths.some(path => localizePath(path, locale) === Astro.url.pathname);
 ---
 <header class="site-header">
   <div class="header-inner">

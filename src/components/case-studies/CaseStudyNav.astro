@@ -1,22 +1,27 @@
 ---
 import { projects } from '../../data/projects';
-interface Props { currentSlug: string; }
+import type { Locale } from '../../i18n/routes.ts';
+import { homeHref, localizePath } from '../../i18n/routes.ts';
+import { ui } from '../../i18n/ui.ts';
+interface Props { currentSlug: string; locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+const copy = ui[locale];
 const index = projects.findIndex(project => project.slug === Astro.props.currentSlug);
 if (index < 0) throw new Error(`Unknown project: ${Astro.props.currentSlug}`);
 const previous = projects[(index + projects.length - 1) % projects.length];
 const next = projects[(index + 1) % projects.length];
-const destination = (project: typeof previous) => project.caseStudyPath ?? `/#project-${project.slug}`;
+const destination = (project: typeof previous) => project.caseStudyPath ? localizePath(project.caseStudyPath, locale) : homeHref(locale, 'project-' + project.slug);
 ---
-<nav class="case-project-nav" aria-label="Project navigation">
+<nav class="case-project-nav" aria-label={copy.projectNavigation}>
   <div class="wrap case-project-nav-inner">
-    {[{ project: previous, label: 'Previous', className: 'case-project-previous' }, { project: next, label: 'Next', className: 'case-project-next' }].map(item => <a class:list={['case-project-step', item.className]} href={destination(item.project)} aria-label={`${item.label} project: ${item.project.name}`}>
-      <span class="case-step-label">{item.label} project</span>
+    {[{ project: previous, label: copy.previousProject, accessible: copy.previousProjectLabel, className: 'case-project-previous' }, { project: next, label: copy.nextProject, accessible: copy.nextProjectLabel, className: 'case-project-next' }].map(item => <a class:list={['case-project-step', item.className]} href={destination(item.project)} aria-label={item.accessible.replace('{project}', item.project.name)}>
+      <span class="case-step-label">{item.label}</span>
       <span class="case-step-surface">
         <svg class="case-step-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={item.className === 'case-project-previous' ? 'M19 12H5m7-7-7 7 7 7' : 'M5 12h14m-7-7 7 7-7 7'} /></svg>
         <img class:list={['case-step-logo', { 'case-step-logo--karisma': item.project.slug === 'karisma-ai' }]} src={item.project.logo ?? item.project.home.logo.src} alt="" width="16" height="16" loading="lazy" decoding="async" />
         <span class="case-step-name">{item.project.name}</span>
       </span>
     </a>)}
-    <a class="case-project-all" href="/#work"><span class="case-back-surface"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>All work</span></a>
+    <a class="case-project-all" href={homeHref(locale, 'work')}><span class="case-back-surface"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>{copy.allWork}</span></a>
   </div>
 </nav>

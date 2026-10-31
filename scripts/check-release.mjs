@@ -4,7 +4,7 @@ import {projects} from '../src/data/projects.ts';
 const decoder=new TextDecoder('utf-8',{fatal:true});
 for(const file of readdirSync('src',{recursive:true})) if(statSync('src/'+file).isFile()) assert.doesNotThrow(()=>decoder.decode(readFileSync('src/'+file)), `${file}: source must be UTF-8`);
 const preview=process.argv.includes('--preview');
-const routes=['/','/id/',...projects.map(p=>p.caseStudyPath),'/404.html'];
+const routes=['/','/id/',...projects.flatMap(p=>[p.caseStudyPath,'/id'+p.caseStudyPath]),'/404.html'];
 for(const route of routes){
  const path=route==='/'?'dist/index.html':route.endsWith('.html')?`dist${route}`:`dist${route}index.html`;
  const html=readFileSync(path,'utf8');

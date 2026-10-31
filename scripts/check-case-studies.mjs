@@ -54,3 +54,19 @@ for (const chapter of ['problem', 'focus', 'idea', 'prototype']) assert.equal((b
 for (const text of ['Product concept / planning', 'Keeps its original setup', 'Can choose the update', 'Questions for a prototype', 'Not in the first version:']) assert.ok(boilrplateHtml.includes(text), text);
 assert.doesNotMatch(boilrplateHtml, /data-motion-toggle|data-reveal|Open live product|milestone verification|final release claim/);
 console.log('PASS: case shells, circular project navigation, chapter destinations, media and evidence captions.');
+
+// Indonesian bodies preserve evidence qualifications and source-code examples.
+for (const project of projects) {
+  const html = readFileSync('dist/id/work/' + project.slug + '/index.html','utf8');
+  assert.equal((html.match(/<h1(?:\s|>)/g)||[]).length,1);
+  const source = readFileSync('src/pages/work/' + project.slug + '.md','utf8');
+  const translated = readFileSync('src/pages/id/work/' + project.slug + '.md','utf8');
+  for (const code of source.match(/<(?:pre|code)\b[^>]*>[\s\S]*?<\/(?:pre|code)>/g)||[]) assert.ok(translated.includes(code), project.slug + ': code samples remain original');
+}
+const idCases = Object.fromEntries(projects.map(p => [p.slug,readFileSync('dist/id/work/' + p.slug + '/index.html','utf8')]));
+for (const text of ['bukan hasil QA baru','Tidak ada angka hasil pengguna','belum menjadi riset yang selesai dilakukan','11 pemeriksaan CI lolos']) assert.ok(idCases.codestroke.includes(text),text);
+for (const text of ['kondisi antarmuka ilustratif','bukan tangkapan aplikasi yang sedang berjalan','tidak menjalankan ulang tes','tidak ada klaim bahwa doomscrolling sudah berkurang']) assert.ok(idCases.blastrot.includes(text),text);
+for (const text of ['enam orang','Model dan aplikasinya merupakan hasil kerja tim.','bukan peluang diterima kerja','data dan skor ilustratif','Termasuk Fausta Raihan Maulana']) assert.ok(idCases['karisma-ai'].includes(text),text);
+assert.equal((idCases['karisma-ai'].match(/class="team-count">2 anggota/g)||[]).length,3);
+for (const text of ['Konsep produk / perencanaan','Tetap memakai setup awal','Bisa memilih versi baru','Pertanyaan untuk prototipe','Belum masuk versi pertama']) assert.ok(idCases.boilrplate.includes(text),text);
+console.log('PASS: Indonesian evidence qualifiers, team attribution and unchanged technical examples.');

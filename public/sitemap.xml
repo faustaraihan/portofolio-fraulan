@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://fraulan.com/</loc></url>
-  <url><loc>https://fraulan.com/work/karisma-ai/</loc></url>
   <url><loc>https://fraulan.com/work/codestroke/</loc></url>
   <url><loc>https://fraulan.com/work/blastrot/</loc></url>
+  <url><loc>https://fraulan.com/work/karisma-ai/</loc></url>
   <url><loc>https://fraulan.com/work/boilrplate/</loc></url>
+  <url><loc>https://fraulan.com/id/</loc></url>
+  <url><loc>https://fraulan.com/id/work/codestroke/</loc></url>
+  <url><loc>https://fraulan.com/id/work/blastrot/</loc></url>
+  <url><loc>https://fraulan.com/id/work/karisma-ai/</loc></url>
+  <url><loc>https://fraulan.com/id/work/boilrplate/</loc></url>
 </urlset>

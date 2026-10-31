@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import type { Locale } from '../i18n/routes.ts';
+import { contentPaths, localizePath } from '../i18n/routes.ts';
 import { ui } from '../i18n/ui.ts';
 
 interface Props {
@@ -26,6 +27,7 @@ const {
 const canonicalUrl = canonical ?? Astro.url.pathname;
 const absoluteCanonical = new URL(canonicalUrl, Astro.site ?? 'https://fraulan.com').toString();
 const absoluteOg = new URL(ogImage, Astro.site ?? 'https://fraulan.com').toString();
+const hasAlternates = contentPaths.some(path => localizePath(path, locale) === Astro.url.pathname);
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -43,6 +45,7 @@ const personJsonLd = {
     <meta name="theme-color" content="#fcfdfe" />
     <meta name="description" content={description} />
     <link rel="canonical" href={absoluteCanonical} />
+    {hasAlternates && (['en', 'id', 'x-default'] as const).map(language => <link rel="alternate" hreflang={language} href={new URL(localizePath(Astro.url.pathname, language === 'id' ? 'id' : 'en'), Astro.site ?? 'https://fraulan.com').toString()} />)}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

@@ -50,11 +50,13 @@ html[data-motion='static'] [data-reveal]{animation:none!important;transition:non
 .desktop-nav .language-switch:hover{background:#ffffff80}
 /* At phone widths the logo and links share a single glass capsule. */
 @media(max-width:480px){
- .site-header .header-inner{width:calc(100% - 24px);min-height:54px;gap:0;padding:4px;border:1px solid #ffffffcc;border-radius:9999px;background:linear-gradient(180deg,#ffffffad,#ffffff45);box-shadow:0 5px 20px #102a3a18;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+ .site-header .header-inner{width:calc(100% - 24px);min-height:54px;gap:0;padding:clamp(4px,1.25vw,6px);border:1px solid #ffffffcc;border-radius:9999px;background:linear-gradient(180deg,#ffffffad,#ffffff45);box-shadow:0 5px 20px #102a3a18;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
  .header-inner>.wordmark{width:44px;height:44px;min-width:44px!important;border:0;background:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
  .header-inner>.wordmark img{width:30px;height:30px}
- .header-inner>.desktop-nav{display:flex;flex:1;justify-content:flex-end;min-width:0;max-width:none;gap:0;padding:0;border:0;background:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:12px}
- .desktop-nav>.nav-link{padding:8px 4px}
- .desktop-nav>.language-switch{min-width:44px;margin:0;padding:8px 4px;background:transparent;box-shadow:none}
- .desktop-nav>.nav-contact{margin-left:0;padding:8px 6px;gap:4px;white-space:nowrap;line-height:1.2}
+ .header-inner>.desktop-nav{display:flex;flex:1;justify-content:flex-end;min-width:0;max-width:none;gap:clamp(0px,calc(5vw - 16px),8px);padding:0;border:0;background:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:12px}
+ .desktop-nav>.nav-link{padding:8px clamp(4px,calc(5vw - 12px),12px)}
+ .desktop-nav>.language-switch{min-width:44px;margin:0;padding:8px clamp(4px,calc(5vw - 12px),12px);background:#d4e7f14d;box-shadow:inset 0 1px 0 #ffffff80}
+ .desktop-nav>.nav-contact{margin-left:0;padding:8px clamp(6px,calc(3.75vw - 6px),12px);gap:4px;white-space:nowrap;line-height:1.2}
 }
+
+.not-found-actions{display:flex;flex-wrap:wrap;gap:12px}
