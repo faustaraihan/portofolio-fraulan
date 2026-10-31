@@ -1,7 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Header from '../Header.astro';
-import Footer from '../Footer.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
 import ProjectTeaser from '../ProjectTeaser.astro';
 import ProductReel from './ProductReel.astro';
 import ProductMindset from './ProductMindset.astro';
@@ -14,10 +12,7 @@ const { locale } = Astro.props;
 const copy = ui[locale];
 const localizedProjects = projects.map(project => getProject(project.slug, locale)!);
 ---
-<BaseLayout locale={locale} motion={false}>
-  <div class="home-page">
-    <Header locale={locale} />
-    <main id="main-content" tabindex="-1">
+<SiteLayout locale={locale} variant="home" motion={false}>
       <section id="home-hero" class="home-hero wrap" aria-labelledby="hero-heading">
         <div class="hero-copy">
           <p class="hero-identity">{copy.fullName}</p>
@@ -34,7 +29,4 @@ const localizedProjects = projects.map(project => getProject(project.slug, local
       </section>
       <AboutSection locale={locale} />
       <section id="contact" class="home-contact" aria-labelledby="contact-heading"><div class="contact-layout wrap"><div><p class="contact-eyebrow">{copy.contactEyebrow}</p><h2 id="contact-heading">{copy.contactHeadingStart}<em>{copy.contactHeadingEnd}</em></h2></div><div class="contact-details"><p>{copy.contactIntroduction}</p><a class="button button-primary contact-email" href="mailto:faustaraihan69@gmail.com">{copy.email}<span aria-hidden="true">↗</span></a></div></div></section>
-    </main>
-    <Footer locale={locale} />
-  </div>
-</BaseLayout>
+</SiteLayout>

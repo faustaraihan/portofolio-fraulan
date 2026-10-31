@@ -60,3 +60,7 @@ html[data-motion='static'] [data-reveal]{animation:none!important;transition:non
 }
 
 .not-found-actions{display:flex;flex-wrap:wrap;gap:12px}
+
+/* The shared page shell keeps short pages full-height without changing page chrome. */
+.site-shell{display:flex;flex-direction:column;flex:1;min-height:100svh}
+.site-shell>main{flex:1}

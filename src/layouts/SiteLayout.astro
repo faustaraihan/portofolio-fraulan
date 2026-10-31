@@ -1,0 +1,22 @@
+---
+import type { ComponentProps } from 'astro/types';
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+type Props = ComponentProps<typeof BaseLayout> & {
+  variant?: 'home' | 'case' | 'plain';
+  designed?: boolean;
+  mainClass?: string;
+};
+const { locale = 'en', variant = 'plain', designed = false, mainClass, ...documentProps } = Astro.props;
+---
+<BaseLayout locale={locale} {...documentProps}>
+  <div class:list={['site-shell', { 'home-page': variant === 'home', 'case-page': variant === 'case', 'case-page--designed': variant === 'case' && designed }]}>
+    <Header locale={locale} />
+    <main id="main-content" class={mainClass} tabindex="-1">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </div>
+</BaseLayout>
