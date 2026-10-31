@@ -81,7 +81,12 @@ if (process.argv.includes('--home')) {
     assert.equal((html.match(/data-reel-tile/g) || []).length, 12);
     assert.equal((html.match(/data-work-card/g) || []).length, 4);
     assert.equal((html.match(/data-process-step/g) || []).length, 3);
-    assert.ok(html.includes('class="language-switch"'));
+    const switchLink = html.match(/<a class="language-switch"[\s\S]*?<\/a>/)?.[0];
+    assert.ok(switchLink, 'One native language toggle');
+    assert.equal((html.match(/class="language-switch"/g) || []).length, 1);
+    assert.match(switchLink, /<svg/);
+    assert.ok(switchLink.includes('>' + locale.toUpperCase() + '</span>'));
+    assert.ok(switchLink.includes('href="' + (locale === 'en' ? '/id/' : '/') + '"'));
     assert.ok(html.includes('href="/id/"'));
     assert.ok(html.includes('href="/"'));
     const footer = html.match(/<footer[\s\S]*?<\/footer>/)[0];
